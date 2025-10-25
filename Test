@@ -1,0 +1,20 @@
+<!--
+Copilot, please draft a detailed technical and architectural plan for modernizing a legacy SOAP-based Spring Boot service to a REST/JSON interface.
+
+The document should include:
+- Purpose and background of modernization.
+- Current system overview.
+- Possible modernization options:
+  1. Full rewrite to REST
+  2. Introduce REST–SOAP proxy adapter layer (no changes to existing SOAP service)
+  3. Integrate SOAP implementation directly into REST project
+- Comparison of each option (pros, cons, risk, effort).
+- Recommendation (choose proxy adapter approach).
+- High-level architecture diagram description.
+- Key benefits of the proxy approach.
+- Latency considerations and mitigation strategies.
+- Common management/stakeholder questions with clear answers.
+- Next steps and phased rollout plan.
+
+Use clear markdown structure (## headings, tables, code snippets) and concise professional language suitable for internal documentation.
+-->
