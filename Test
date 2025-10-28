@@ -1,20 +1,236 @@
-<!--
-Copilot, please draft a detailed technical and architectural plan for modernizing a legacy SOAP-based Spring Boot service to a REST/JSON interface.
+Reusing Existing Service Layer POJOs in REST Modernization
+1. Objective
 
-The document should include:
-- Purpose and background of modernization.
-- Current system overview.
-- Possible modernization options:
-  1. Full rewrite to REST
-  2. Introduce REST–SOAP proxy adapter layer (no changes to existing SOAP service)
-  3. Integrate SOAP implementation directly into REST project
-- Comparison of each option (pros, cons, risk, effort).
-- Recommendation (choose proxy adapter approach).
-- High-level architecture diagram description.
-- Key benefits of the proxy approach.
-- Latency considerations and mitigation strategies.
-- Common management/stakeholder questions with clear answers.
-- Next steps and phased rollout plan.
+The purpose of this document is to outline the approach for reusing existing service-layer POJOs and business logic directly in the new REST-based architecture, after removing the legacy SOAP façade.
+This approach ensures maximum reuse, minimizes regression, and reduces modernization complexity.
 
-Use clear markdown structure (## headings, tables, code snippets) and concise professional language suitable for internal documentation.
--->
+2. Background
+Aspect	Current (Legacy)	Target (Modernized)
+API Interface	SOAP over HTTP (Apache CXF)	REST over HTTPS (JSON)
+Presentation Layer	SOAP service classes (CXF-generated)	Spring Boot REST controllers
+Business Layer	Custom service classes (Spring beans)	Reused as-is
+Data Layer	DAO / Repository layer	Reused as-is
+Serialization	XML (JAXB)	JSON (Jackson)
+
+The current SOAP service layer consists of CXF-generated endpoints that receive JAXB-bound request/response objects and pass them to the service layer. The modernization replaces this SOAP binding layer with Spring Boot REST controllers, but retains the service and DAO layers unchanged.
+
+3. Modernized Layered Architecture
++-------------------------------------------------------------+
+|                    OpenShift (OCP) Environment              |
+|-------------------------------------------------------------|
+|  ┌────────────────────────────────────────────────────────┐ |
+|  │             REST Controller Layer (New)                │ |
+|  │  - Spring Boot 3.x Controllers                         │ |
+|  │  - Directly use existing service-layer POJOs           │ |
+|  │  - Jackson for JSON serialization                      │ |
+|  │  - Centralized Exception Handling                      │ |
+|  └────────────────────────────────────────────────────────┘ |
+|                 │ Direct Invocation                         |
+|  ┌──────────────▼─────────────────────────────────────────┐ |
+|  │             Service Layer (Reused)                     │ |
+|  │  - Existing Spring beans and business logic            │ |
+|  │  - No modification needed                              │ |
+|  │  - Transaction management and orchestration logic      │ |
+|  └──────────────┬─────────────────────────────────────────┘ |
+|                 │                                           |
+|  ┌──────────────▼─────────────────────────────────────────┐ |
+|  │              DAO / Repository Layer (Reused)            │ |
+|  │  - JPA / JDBC logic unchanged                           │ |
+|  └──────────────┬─────────────────────────────────────────┘ |
+|                 │                                           |
+|         ┌───────▼────────┐      ┌────────────────────────┐  |
+|         │ Primary DB     │ <──> │ Secondary DB (EOD)     │  |
+|         └────────────────┘      └────────────────────────┘  |
+|                                                             |
+|  ┌────────────────────────────────────────────────────────┐ |
+|  │ Kafka (EOD Event Bus) – For state broadcast to all pods│ |
+|  └────────────────────────────────────────────────────────┘ |
++-------------------------------------------------------------+
+
+4. Implementation Approach
+4.1 Controller Layer (New)
+
+Create Spring Boot 3.x controllers to replace CXF endpoints.
+
+Controllers will:
+
+Accept JSON payloads.
+
+Use existing POJOs from the service layer directly as @RequestBody and @ResponseBody.
+
+Call existing service methods directly (same as SOAP used to do).
+
+Example:
+
+@RestController
+@RequestMapping("/api/customers")
+@RequiredArgsConstructor
+public class CustomerController {
+
+    private final CustomerService customerService;
+
+    @PostMapping("/create")
+    public ResponseEntity<CustomerResponse> createCustomer(
+            @RequestBody CustomerRequest request) {
+        CustomerResponse response = customerService.createCustomer(request);
+        return ResponseEntity.ok(response);
+    }
+}
+
+4.2 Reuse of Existing POJOs
+
+The existing JAXB-annotated request and response classes (used by CXF) can be reused with minimal modification.
+
+Before (SOAP/JAXB class):
+
+@XmlRootElement(name = "CustomerRequest")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class CustomerRequest {
+    private String customerId;
+    private String name;
+}
+
+
+After (REST/JSON compatible class):
+
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CustomerRequest {
+    @JsonProperty("customerId")
+    private String customerId;
+
+    @JsonProperty("name")
+    private String name;
+}
+
+
+➡️ You can retain JAXB annotations; Jackson ignores them by default.
+If needed, you can add minimal @JsonProperty for name alignment with JSON spec.
+
+4.3 JSON Serialization
+
+Library: Jackson (included in Spring Boot by default).
+
+No need for JAXB converters.
+
+Configure Jackson globally:
+
+spring:
+  jackson:
+    serialization:
+      indent_output: true
+    property-naming-strategy: SNAKE_CASE
+
+
+Use @JsonInclude and @JsonIgnore to control response visibility.
+
+4.4 Exception Handling
+
+Implement a global exception handler to replace SOAPFaults with structured JSON responses.
+
+Example:
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<ErrorResponse> handleServiceError(ServiceException ex) {
+        ErrorResponse error = new ErrorResponse("SERVICE_ERROR", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericError(Exception ex) {
+        ErrorResponse error = new ErrorResponse("GENERIC_ERROR", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+}
+
+
+ErrorResponse model:
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ErrorResponse {
+    private String code;
+    private String message;
+    private Instant timestamp = Instant.now();
+}
+
+4.5 EOD Handling with Kafka
+
+To manage EOD switch events across stateless pods:
+
+Introduce a Kafka topic (e.g., eod-switch).
+
+The EOD trigger (from App1 or App2) sends a message to this topic.
+
+All pods listen to the topic and update their runtime state (e.g., DB URL switch).
+
+Example:
+
+@Component
+@Slf4j
+public class EodEventListener {
+
+    @KafkaListener(topics = "eod-switch")
+    public void onEodEvent(String message) {
+        log.info("EOD switch triggered: {}", message);
+        // Switch DB configuration here
+    }
+}
+
+5. Advantages of Reusing Service-Layer POJOs
+Benefit	Description
+Minimal Regression	The same business/service logic continues to function identically.
+No Mapping Overhead	Directly use existing POJOs instead of introducing DTO mapping frameworks.
+Reduced Latency	Avoid SOAP serialization/deserialization layers.
+Simplified Maintenance	Fewer moving parts (no generated stubs, no adapters).
+Easier Testing	Controller → Service testing straightforward using JUnit and MockMVC.
+6. When to Introduce DTO Mapping Later
+
+Introduce dedicated REST DTOs (and possibly MapStruct) only if:
+
+App2’s JSON contract differs significantly from existing service models.
+
+Sensitive or internal fields must be hidden from API responses.
+
+You plan to expose APIs externally through Apigee or other gateways.
+
+In such cases, you’ll:
+
+Keep service-layer objects unchanged.
+
+Add lightweight DTOs for REST exposure.
+
+Introduce MapStruct for compile-time-safe conversions.
+
+7. DevOps & OCP Readiness (Summary)
+Task	Description
+Dockerization	Use a base JDK 17 image; include application jar and configs.
+OpenShift Artifacts	Deployment.yaml, Service.yaml, ConfigMap, Secret, NetworkPolicy.
+Health Probes	/actuator/health, /actuator/info.
+CI/CD Integration	Jenkins/Tekton pipeline with SAST, SCA, unit, and integration tests.
+Observability	Spring Boot Actuator + Prometheus + Grafana.
+Logging	JSON logs with correlation ID (MDC).
+8. Summary
+Aspect	Outcome
+SOAP layer	Removed entirely.
+Service & DAO	Reused as-is (no code changes).
+Controllers	New REST controllers with minimal annotations.
+Data models	Reuse existing POJOs (JAXB or Plain Java).
+EOD handling	Kafka-based event synchronization.
+Deployment	Stateless pods on OpenShift via enterprise pipeline.
+Future readiness	DTO mapping and Apigee exposure can be added later if required.
+✅ Conclusion
+
+This approach delivers a clean modernization path that:
+
+Leverages maximum code reuse,
+
+Ensures minimal refactoring risk,
+
+Meets enterprise DevSecOps and OCP deployment standards, and
+
+Positions the service for future API gateway integration with minimal effort.
