@@ -1,87 +1,18 @@
-package com.example.streambridge.service.impl;
-
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.kafka.clients.producer.RecordMetadata;
-import org.springframework.http.ResponseEntity;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
-import org.springframework.stereotype.Service;
-
-import com.example.streambridge.config.KafkaProperties;
-import com.example.streambridge.dto.KafkaPublishRequest;
-import com.example.streambridge.dto.MessageMetadataFactory;
-import com.example.streambridge.util.KafkaInterceptorRegistry;
-import com.example.streambridge.util.KafkaProducerManager;
-import com.example.streambridge.util.MessageStatusStore;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class KafkaPublishService {
-
-    private final KafkaProducerManager producerManager;
-    private final KafkaProperties kafkaProperties;
-    private final KafkaInterceptorRegistry interceptorRegistry;
-    private final MessageStatusStore messageStatusStore;
-
-    @Retryable(
-        retryFor = { Exception.class },  
-        maxAttempts = 3,
-        backoff = @Backoff(delay = 1000)
-    )
-    public boolean sendWithRetry(KafkaPublishRequest request) throws Exception {
-        KafkaProperties.TopicSecurity topicSecurity = kafkaProperties.getTopics().stream()
-            .filter(t -> t.getName().equals(request.getTopic()))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("No config for topic: " + request.getTopic()));
-
-        CompletableFuture<RecordMetadata> future = producerManager.sendMessage(
-            request,
-            topicSecurity,
-            kafkaProperties.getTruststore(),
-            kafkaProperties.getBootstrapServers(),
-            interceptorRegistry.get(request.getTopic())
-        );
-
-        try {
-        	future.get(10, TimeUnit.SECONDS); // Will throw if Kafka failed
-            return true;  // Only success if no exception thrown
-        } catch (Exception e) {
-            log.error("Error sending Kafka message (will retry if applicable): {}", e.getMessage(), e);
-            throw e;
-        }
-    }
+| Aspect                                                      | Effort                        | Benefit                              | Remarks                                                                                                   |
+| ----------------------------------------------------------- | ----------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| **Development Effort (Controller creation, JSON exposure)** | **Medium–High**               | **Low**                              | Controllers must be written manually for each SOAP method, but functionality remains identical.           |
+| **Payload Simplification / Redesign**                       | **High (if attempted)**       | **High**, but *out of current scope* | True value would come from rethinking payloads for REST design, which is not in scope.                    |
+| **Business Logic Reuse**                                    | **Low Effort**                | **High Benefit**                     | Reusing the existing service and DAO layers minimizes regression and risk.                                |
+| **Deployment to OCP (Pipelines, Compliance)**               | **High**                      | **Medium**                           | Mandatory enterprise compliance work, adds technical debt if service is decommissioned soon.              |
+| **Performance / Latency Improvement**                       | **Low–Medium Effort**         | **Low Benefit**                      | JSON serialization may slightly improve performance, but payload heaviness still dominates response time. |
+| **Consumer (App2) Enablement**                              | **Medium**                    | **Medium**                           | App2 can consume REST easily, but payload remains equally complex to parse.                               |
+| **Long-Term Value (given decommission plan)**               | **High Effort, Low Duration** | **Low**                              | Modernized service may only serve interim purpose until App2 fully transitions.                           |
 
 
-    public ResponseEntity<String> publish(KafkaPublishRequest request) {
-        if (request.getHeaders() == null) {
-            request.setHeaders(new HashMap<>());
-        }
+    Effort vs Benefit Analysis
+Context
 
-        String messageId = request.getHeaders().getOrDefault("messageId", UUID.randomUUID().toString());
-        request.getHeaders().put("messageId", messageId);
+The current SOAP service has highly nested and complex request/response structures, designed for internal system-to-system integration.
+In the proposed modernization, the SOAP façade will be replaced with REST endpoints, but the same business logic and payload models will be reused.
 
-        messageStatusStore.put(messageId, MessageMetadataFactory.pending(messageId));
-
-        try {
-            boolean published = sendWithRetry(request);
-            if (published) {
-                messageStatusStore.put(messageId, MessageMetadataFactory.success(messageId));
-            } else {
-                messageStatusStore.put(messageId, MessageMetadataFactory.failed(messageId, "Unknown failure", true));
-            }
-        } catch (Exception e) {
-            messageStatusStore.put(messageId, MessageMetadataFactory.failed(messageId, e.getMessage(), true));
-        }
-
-        return ResponseEntity.accepted().body("Message accepted, id: " + messageId);
-    }
-
-}
+This means the new REST API will still expect and return the same heavy payloads, only serialized in JSON instead of XML — delivering limited end-user benefit.
