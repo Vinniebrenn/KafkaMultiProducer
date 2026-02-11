@@ -45,3 +45,66 @@
     </logger>
 
 </configuration>
+
+
+
+### **1. Background**
+
+The application currently runs on IBM WebSphere on a RHEL platform that has reached end-of-life. Two risk records were raised last year: one to address the **platform end-of-life**, and another to cover **critical vulnerabilities** identified in the RHEL/WebSphere servers. Both risks were placed under a **remediation path**, which involved moving the application to a newer RHEL environment with a WebSphere clustered topology. UAT for the new environment was completed; however, production cutover could not be executed within the approved window.
+
+In parallel, the vendor released application version 18.x, which no longer supports WebSphere and requires a Spring Boot–based runtime. This change necessitates a new remediation path aligned with vendor-supported architecture.
+
+---
+
+### **2. Reason for Delay**
+
+The remediation was delayed due to multiple factors:
+
+* Overlapping mandatory upgrades, including the application version upgrade, Oracle upgrade, and SWIFT upgrade, which required the current production environment to remain operational.
+* The vendor move to Spring Boot rendered the original WebSphere-based remediation path obsolete.
+* Although the new RHEL environment was provisioned and UAT-approved, the **production cutover could not be executed due to the lack of an appropriate production window**.
+
+---
+
+### **3. Progress Made So Far**
+
+Despite the delays, significant progress has been achieved:
+
+* New RHEL environments were provisioned and **UAT for the application was signed off**.
+* Production servers were built but the **cutover could not be executed due to lack of an appropriate window**.
+* The signed-off version is now **outdated**, so the remediation path must ensure the application version on the current RHEL aligns with the version to be deployed on the new RHEL environment.
+* Running parallel efforts on the current production environment and the new RHEL environment is **not feasible** due to business constraints; the cutover will be a **single, controlled deployment**.
+* Application, Oracle, and SWIFT upgrades have been completed.
+* Initial DR/BCP and integration readiness assessments have been completed.
+* High-level remediation options have been identified, including **SAS-managed** and **in-house** deployment approaches.
+* Risk exposure has been minimized through ongoing patching, monitoring, and controlled use of existing production servers.
+
+---
+
+### **4. Next Steps & Indicative Milestones (Target: Early November Go-Live)**
+
+#### **Option 1 – SAS-Managed Deployment**
+
+| **Timeframe** | **Milestone**                                                                                |
+| ------------- | -------------------------------------------------------------------------------------------- |
+| Feb – Mar     | Confirm deployment model, SAS hosting regions, data residency, security, and DR/BCP approach |
+| Mar – Apr     | SAS environment provisioning (DEV / TEST / PROD)                                             |
+| Apr – May     | Connectivity and integration setup with enterprise systems (MQCON, OCON)                     |
+| May – Jun     | Vendor-led application deployment and configuration                                          |
+| Jun – Jul     | System, integration, and non-functional testing                                              |
+| Jul – Aug     | Operational readiness: runbooks, monitoring, DR procedures                                   |
+| Sep           | UAT, dress rehearsal, cutover planning                                                       |
+| Early Nov     | Production cutover and go-live                                                               |
+
+#### **Option 2 – In-House Deployment**
+
+| **Timeframe** | **Milestone**                                                       |
+| ------------- | ------------------------------------------------------------------- |
+| Feb – Mar     | Target architecture, hosting, and DR/BCP design                     |
+| Mar – Apr     | Internal infrastructure provisioning (DEV / TEST / PROD)            |
+| Apr – May     | Platform and runtime readiness (OS, middleware, monitoring, access) |
+| May – Jun     | Vendor application handover and deployment                          |
+| Jun – Jul     | Integration, system, and non-functional testing                     |
+| Jul – Aug     | DR implementation, operational readiness, and runbooks              |
+| Sep           | UAT, cutover rehearsal, go-live readiness                           |
+| Early Nov     | Production cutover and go-live                                     
