@@ -1,141 +1,59 @@
-# KafkaMultiProducer
-KafkaMultiProducer
+graph TD
+    %% ZONE 1: LEGACY (Greyed out to show decommissioning)
+    subgraph Legacy_Zone [LEGACY: ON-PREM RHEL]
+        direction TB
+        WS[IBM WebSphere <br/> EAR-Based Monolith] --- OS[Outdated RHEL 6/7]
+        NAS[NAS File System]
+    end
 
+    %% ZONE 2: DEVOPS (The 'How' it gets there)
+    subgraph DevOps_Zone [ENTERPRISE DEVOPS PIPELINE]
+        Git[Git / Source] --> Build[Maven/Gradle Build]
+        Build --> Scan[Security Scan <br/> Aqua/Sonar]
+        Scan --> Registry[(Image Registry <br/> Quay/Artifactory)]
+    end
 
-Below is a clean, professional milestone plan you can place in Confluence and management decks.
-It is written in a program-style format (month range + milestone + outcome) so leadership can quickly understand the migration progress.
+    %% ZONE 3: OPENSHIFT RUNTIME (The 'Where' it lives)
+    subgraph OCP_Cluster [OPENSHIFT CONTAINER PLATFORM]
+        direction TB
+        Route([OCP Route]) --> SVC[OCP Service]
+        
+        subgraph Pod_Scaling [Scalable Pod Group]
+            APP[Spring Boot Application <br/> Stateless Runtime]
+            JDBC[Oracle JDBC]
+            JMS[MQ Client]
+        end
 
-I also aligned it with your two-phase strategy (8.x validation → 8.x+ SWIFT aligned release).
+        SVC --> APP
+        Config[(ConfigMaps / Secrets)] -.-> APP
+        Health{Liveness / <br/> Readiness} --- APP
+    end
 
+    %% ZONE 4: INTEGRATION & DATA
+    subgraph MQ_Backbone [INTEGRATION LAYER: IBM MQ]
+        direction TB
+        IQ[INPUT_QUEUE <br/> Inbound SWIFT]
+        OQ[OUTPUT_QUEUE <br/> Outbound SWIFT]
+        EQ[ERROR_DLQ <br/> Failed Processing]
+    end
 
----
+    DB[(Oracle Database)]
 
-Spring Boot Migration – Program Milestones & Timeline
+    %% CONNECTORS
+    Upstream[Upstream Systems] --> IQ
+    IQ --> Route
+    APP --> OQ
+    OQ --> Downstream[Downstream Systems]
+    APP -- "Failure/Retry" --> EQ
+    APP <--> DB
+    Scheduler[External Scheduler] -- "REST Trigger" --> Route
+    Registry -- "Automated Image Push" --> Pod_Scaling
 
-Phase 1 – Platform Foundation & Image Build
-
-Timeline	Milestone	Key Activities	Outcome
-
-April 2026	Vendor Artifact Onboarding	Receive vendor application artifact and Dockerfile	Application package ready for enterprise build pipeline
-April 2026	Source Repository Setup	Onboard application artifact into internal GitHub repository	Enterprise-controlled source management
-Late April – Early May 2026	Container Image Build	Build Spring Boot container image using internal CI pipeline	First enterprise-built container image
-May 2026	Image Validation	Validate container runtime behavior and application startup	Image readiness confirmed
-
-
-
----
-
-Phase 2 – Platform Enablement (DevSecOps Setup)
-
-Timeline	Milestone	Key Activities	Outcome
-
-May 2026	OpenShift Platform Preparation	Create OCP namespaces, networking configuration, secrets management	Platform environment ready
-May – June 2026	CI/CD Pipeline Enablement	Configure CI/CD pipeline for automated image build and deployment	Automated deployment pipeline established
-June 2026	Security Validation	Container security scanning, vulnerability assessment	Enterprise security compliance validated
-June 2026	Registry Integration	Publish container images to enterprise container registry	Image promotion capability established
-
-
-
----
-
-Phase 3 – Spring Boot 8.x Platform Validation
-
-Timeline	Milestone	Key Activities	Outcome
-
-June 2026	Deploy Spring Boot 8.x	Deploy application to OpenShift Dev environment	Platform deployment verified
-June – July 2026	Integration Validation	Validate Oracle DB, IBM MQ connectivity and file handling	Integration compatibility confirmed
-July 2026	Dev Testing	Developer testing and platform validation	Development validation complete
-July – August 2026	QA Testing	Execute functional and integration test cases	QA validation complete
-August – September 2026	UAT Validation	Business validation in UAT environment	Platform readiness confirmed
-
-
-
----
-
-Phase 4 – SWIFT Aligned Release (Spring Boot 8.x+)
-
-Timeline	Milestone	Key Activities	Outcome
-
-October 2026	Receive SWIFT Aligned Vendor Release	Vendor provides Spring Boot 8.x+ SWIFT equivalent release	Updated artifact ready
-October 2026	Container Build for 8.x+	Build new container image using updated artifact	Updated image generated
-October – November 2026	Dev & QA Validation	Execute application and integration testing	Release stability confirmed
-November – December 2026	UAT Validation	Business validation for SWIFT aligned functionality	Production readiness validated
-
-
-
----
-
-Phase 5 – Production Transition
-
-Timeline	Milestone	Key Activities	Outcome
-
-December 2026	Production Readiness	Operational readiness, monitoring setup, deployment preparation	Deployment readiness confirmed
-January 2027	Spring Boot Production Go-Live	Deploy Spring Boot application on OpenShift production cluster	Application fully migrated from WebSphere
-
-
-
----
-
-Migration Timeline Summary
-
-Apr 2026
-Vendor artifact onboarding
-GitHub repository setup
-
-May 2026
-Container image build
-OpenShift platform preparation
-
-Jun 2026
-CI/CD pipeline enablement
-Security scanning
-
-Jun – Aug 2026
-Spring Boot 8.x platform validation
-Dev / QA testing
-
-Aug – Sep 2026
-UAT validation
-
-Oct 2026
-Vendor provides SWIFT aligned release
-
-Oct – Nov 2026
-Spring Boot 8.x+ build and validation
-
-Nov – Dec 2026
-UAT validation
-
-Jan 2027
-Spring Boot production go-live
-
-
----
-
-Why this plan looks strong to management
-
-This structure demonstrates:
-
-✔ Controlled platform migration
-✔ Separation of platform and regulatory changes
-✔ Enterprise DevSecOps governance
-✔ Gradual validation through Dev / QA / UAT
-✔ Production risk mitigation
-
-
----
-
-Small improvement (recommended)
-
-Add this one sentence under the timeline in Confluence:
-
-> The migration plan is aligned with the WebSphere SWIFT release schedule to ensure that regulatory upgrades continue without disruption while the Spring Boot platform is validated independently.
-
-
-
-That line shows strategic planning, not just execution.
-
-
----
-
-If you want, I can also give you a very clean professional Gantt roadmap (consulting style) matching these milestones so your Confluence page looks like a real enterprise migration program.
+    %% STYLING (Lucidchart Compatible)
+    style Legacy_Zone fill:#f5f5f5,stroke:#999,stroke-dasharray: 5 5
+    style DevOps_Zone fill:#e3f2fd,stroke:#1565c0
+    style OCP_Cluster fill:#fff,stroke:#e65100,stroke-width:2px
+    style MQ_Backbone fill:#e8f5e9,stroke:#2e7d32
+    style APP fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    style EQ fill:#ffebee,stroke:#c62828
+    style DB fill:#fff3e0,stroke:#ef6c00
