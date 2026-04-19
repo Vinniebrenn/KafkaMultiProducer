@@ -1,92 +1,237 @@
-You’re right — removing all subheadings makes it harder to scan. The sweet spot is few, meaningful subheadings + rich narrative under each (not bullet-heavy, not fragmented).
-
-Here’s a balanced version of your Migration Approach:
-
+# 🚀 Application Modernisation – Migration Approach (WebSphere → OpenShift)
 
 ---
 
-7. Migration Approach
+## **Overview**
 
-7.1 Artifact Onboarding and Repository Setup
-
-The migration process begins with the vendor providing the required application artifacts, including the Spring Boot package, configuration guidelines, and integration details. These artifacts are reviewed to ensure alignment with enterprise standards, particularly around runtime dependencies such as Java and MQ client compatibility.
-
-Once validated, the artifacts are onboarded into the enterprise GitHub repository, which serves as the single source of truth for application code, container definitions, and deployment configurations. This ensures proper version control, traceability, and consistency across environments.
+This document outlines the structured migration approach to transition the application from a legacy WebSphere environment on end-of-life RHEL infrastructure to a modern, containerised Spring Boot deployment on the enterprise OpenShift platform.
 
 
----
 
-7.2 Containerization and Build Process
+# 🧭 **Stage 1: Discovery & Baseline Establishment**
 
-The application is then packaged into a Docker image, embedding the Spring Boot runtime along with required dependencies such as MQ client libraries. Care is taken to externalize configuration so that environment-specific details are not hardcoded into the image.
+**Status:** 🟡 In Progress
 
-This containerized approach ensures that the application behaves consistently across all environments, eliminating the dependency on underlying server configurations that existed in the WebSphere model.
+### Objective
 
+Establish a complete understanding of the current system, dependencies, and constraints.
 
----
+### Key Activities
 
-7.3 CI/CD Pipeline and Image Promotion
+* Analyse existing WebSphere deployment (EAR structure, JMS configuration)
+* Identify MQ usage (queues, connection factories, messaging patterns)
+* Document SWIFT file-based integration (input / processed / error flows)
+* Capture Oracle DB dependencies and interactions
+* Identify scheduling mechanisms (cron jobs, batch triggers)
+* Review non-functional requirements (availability, DR, performance)
 
-The container image is processed through the enterprise CI/CD pipeline, which automates build, security scanning, and compliance validation. This step ensures that the application meets organizational standards before being promoted further.
+### Outcome
 
-Once approved, the image is stored in the enterprise container registry with proper versioning. A controlled promotion model is then followed, moving the application through development, QA, UAT, and production environments in a structured manner.
-
-
----
-
-7.4 Deployment and Runtime on OpenShift
-
-Within OpenShift, the application is deployed as a stateless service running across multiple pods, enabling horizontal scalability and high availability. Configuration is managed using platform-native constructs such as ConfigMaps and Secrets, while health monitoring is handled through readiness and liveness probes.
-
-This represents a significant shift from the previous server-based deployment model, allowing the platform to manage scaling, failover, and recovery automatically.
-
+* Approved **Current State Architecture**
+* Confirmed scope and dependencies
+* No unknown integration risks
 
 ---
 
-7.5 Integration and Functional Validation
+# 🧭 **Stage 2: Target Architecture Definition**
 
-As the application progresses through environments, detailed validation is carried out to ensure correct integration behavior. This includes verifying inbound message consumption from MQ, processing within the application, and outbound message publishing to downstream systems.
+**Status:** 🟡 In Progress
 
-Particular focus is placed on validating error handling mechanisms, ensuring that failed messages are correctly routed to error queues or dead letter queues, replacing the earlier filesystem-based failure handling approach.
+### Objective
 
+Define a production-ready, enterprise-aligned architecture on OpenShift.
 
----
+### Key Activities
 
-7.6 Scheduling and Execution Model
+* Define OpenShift deployment model (Ingress, Services, Pods)
+* Confirm migration from filesystem-based integration to MQ-based model
+* Define MQ design:
 
-The scheduling mechanism, which was previously managed through cron jobs on the application server, is now handled within the Spring Boot application using its internal scheduler. This transition requires validation to ensure that scheduled jobs execute correctly in a distributed container environment, particularly when multiple instances of the application are running.
+  * Input Queue (replacement for input folder)
+  * Output Queue
+  * Dead Letter Queue (DLQ)
+* Define Oracle DB connectivity (external to OpenShift)
+* Define configuration management (ConfigMaps, Secrets)
+* Define health monitoring (readiness/liveness probes)
+* Establish logging and observability approach
 
+### Outcome
 
----
-
-7.7 Operational Readiness and Production Deployment
-
-Before production deployment, operational readiness is established by validating logging, monitoring, and alerting integrations. A rollback strategy is also defined using container image versioning, allowing rapid recovery if needed.
-
-Production deployment is executed through the CI/CD pipeline using a controlled rollout strategy. Post-deployment validation focuses on application health, MQ message flow, database connectivity, and overall system stability.
-
-
----
-
-7.8 Post-Go-Live Stabilization
-
-Following deployment, a hypercare period is maintained to closely monitor application performance and message processing behavior. This ensures that any issues are quickly identified and addressed, providing a stable transition to the new architecture.
-
+* Signed-off **Target Architecture**
+* Clear integration and runtime model
+* Governance-ready architecture artefacts
 
 ---
 
-👍 Why this version works
+# 🧭 **Stage 3: DevOps & Environment Readiness**
 
-✔ Not too many subheadings (just enough structure)
+**Status:** ⚪ Not Started
 
-✔ Each section has proper depth (not 1–2 lines)
+### Objective
 
-✔ Reads like a technical narrative
+Prepare enterprise DevOps pipelines and environments for deployment.
 
-✔ Easy for your boss/director to scan
+### Key Activities
 
+* Onboard vendor artifacts into enterprise Git repository
+* Configure CI/CD pipelines (build, test, deploy)
+* Containerise application (Docker image creation)
+* Configure container registry
+* Define environment strategy (Dev → QA → UAT → Prod)
+* Integrate security and compliance scanning
+* Enable automated deployment pipelines (e.g., Jenkins/Tekton)
 
+### Outcome
+
+* Fully operational **DevOps pipeline**
+* Automated and repeatable deployments
+* Platform readiness for application onboarding
 
 ---
 
-If you want, I can now: 👉 align the **entire document tone to this level** (so everything reads consistently like a senior architect wrote it)
+# 🧭 **Stage 4: Application Onboarding to OpenShift & Cloud Governance Review**
+
+**Status:** ⚪ Not Started
+
+### Objective
+
+Onboard the application onto OpenShift in alignment with enterprise cloud and platform governance standards.
+
+### Key Activities
+
+* Register application within OpenShift platform
+* Define namespaces, resource quotas, and access controls
+* Configure Secrets and ConfigMaps for environment-specific properties
+* Implement health checks (readiness and liveness probes)
+* Align deployment with enterprise security policies
+* Conduct **Cloud Governance Review** (architecture, security, compliance)
+* Address any findings from governance review
+
+### Outcome
+
+* Application approved for deployment on OpenShift
+* Compliance with enterprise cloud standards
+* Governance sign-off achieved
+
+---
+
+# 🧭 **Stage 5: Application Transformation & Integration**
+
+**Status:** ⚪ Not Started
+
+### Objective
+
+Deploy and integrate the Spring Boot application within the target architecture.
+
+### Key Activities
+
+* Deploy vendor-provided Spring Boot application onto OpenShift
+* Configure MQ client (JMS) connectivity
+* Implement queue-based integration:
+
+  * Consume from input queue
+  * Publish to output queue
+* Implement error handling via DLQ
+* Replace filesystem-based integration with MQ-based processing
+* Integrate with Oracle DB via JDBC
+* Externalise scheduling (e.g., Stonebranch or enterprise scheduler)
+* Validate stateless behaviour across pods
+
+### Outcome
+
+* Application fully running in target environment
+* Integration aligned to enterprise messaging standards
+* Removal of legacy filesystem dependency
+
+---
+
+# 🧭 **Stage 6: Testing & Validation**
+
+**Status:** ⚪ Not Started
+
+### Objective
+
+Ensure full functional and non-functional validation before production release.
+
+### Key Activities
+
+* Functional testing of message processing flows
+* Integration testing with upstream and downstream systems
+* Performance testing (throughput, latency)
+* Resilience testing (pod restart, MQ failure scenarios)
+* Data validation against legacy system outputs
+* Security and compliance validation
+
+### Outcome
+
+* Business sign-off achieved
+* Performance benchmarks met
+* Production readiness confirmed
+
+---
+
+# 🧭 **Stage 7: Cutover & Go-Live**
+
+**Status:** ⚪ Not Started
+
+### Objective
+
+Execute controlled transition from legacy system to the new platform.
+
+### Key Activities
+
+* Define and approve cutover strategy
+* Freeze changes in legacy environment
+* Deploy application to production OpenShift
+* Switch MQ integrations to new system
+* Monitor initial production transactions
+* Enable rollback strategy if required
+
+### Outcome
+
+* Successful production deployment
+* Business continuity maintained
+* Legacy system ready for decommission
+
+---
+
+# 🧭 **Stage 8: Stabilisation & Optimisation**
+
+**Status:** ⚪ Not Started
+
+### Objective
+
+Ensure stability and optimise the platform post go-live.
+
+### Key Activities
+
+* Monitor application performance and health
+* Tune scaling and resource allocation
+* Optimise MQ and JVM configurations
+* Complete legacy system decommissioning
+* Finalise operational documentation
+
+### Outcome
+
+* Stable and optimised production system
+* Reduced operational overhead
+* Fully modernised platform
+
+---
+
+# ⚡ **Migration Principles**
+
+* **Zero functional regression** – business behaviour remains unchanged
+* **MQ-first integration model** – standardised enterprise messaging
+* **Stateless architecture** – scalability and resilience
+* **Automation-driven delivery** – CI/CD-based deployment
+* **Governance-aligned execution** – compliance at every stage
+
+---
+
+# 📊 **Status Legend**
+
+* 🟢 Completed
+* 🟡 In Progress
+* ⚪ Not Started
+
