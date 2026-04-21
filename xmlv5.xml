@@ -1,120 +1,336 @@
-  
-<mxfile>
-  <diagram name="Modernisation Architecture">
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="Claude" version="21.0.0">
+  <diagram name="Current State (AS-IS)" id="current-state-as-is">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
 
+        <!-- ═══════════════════════════════════════
+             TITLE
+        ═══════════════════════════════════════ -->
+        <mxCell id="title" value="CURRENT STATE (AS-IS)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#1D3557;"
+          vertex="1" parent="1">
+          <mxGeometry x="500" y="30" width="640" height="50" as="geometry"/>
+        </mxCell>
 
-<mxGraphModel dx="1422" dy="798" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
-  <root>
-    <mxCell id="0" />
-    <mxCell id="1" parent="0" />
-    
-    <mxCell id="TITLE" value="&lt;b&gt;Application Modernisation: WebSphere to OpenShift (Spring Boot)&lt;/b&gt;&lt;br&gt;&lt;i&gt;Standardised Integration via IBM MQ Messaging&lt;/i&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" vertex="1" parent="1">
-      <mxGeometry x="344.5" y="10" width="480" height="40" as="geometry" />
-    </mxCell>
+        <!-- ═══════════════════════════════════════
+             CORE SYSTEM
+        ═══════════════════════════════════════ -->
+        <mxCell id="core_sys" value="CORE&#xa;SYSTEM"
+          style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#dae8fc;strokeColor=#1D3557;strokeWidth=2;fontSize=11;fontStyle=1;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="60" y="135" width="115" height="95" as="geometry"/>
+        </mxCell>
 
-    <mxCell id="ZONE_L" value="Current State - WebSphere on RHEL (EOL)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;dashed=1;fontStyle=1;startSize=23;" vertex="1" parent="1">
-      <mxGeometry x="40" y="80" width="280" height="420" as="geometry" />
-    </mxCell>
-    <mxCell id="L1" value="&lt;b&gt;WebSphere Application Server&lt;/b&gt;&lt;br&gt;(Monolithic EAR Deployment)&lt;br&gt;&lt;font color='#cc0000'&gt;[STATUS: DECOMMISSION]&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;strokeWidth=2;" vertex="1" parent="ZONE_L">
-      <mxGeometry x="20" y="50" width="240" height="80" as="geometry" />
-    </mxCell>
-    <mxCell id="L2" value="Filesystem (NAS Integration)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;dashed=1;startSize=23;" vertex="1" parent="ZONE_L">
-      <mxGeometry x="20" y="160" width="240" height="150" as="geometry" />
-    </mxCell>
-    <mxCell id="L3" value="• Input Folder (SWIFT Inbound)&lt;br&gt;• Processed Folder&lt;br&gt;• Error Folder" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="L2">
-      <mxGeometry x="10" y="30" width="220" height="100" as="geometry" />
-    </mxCell>
+        <!-- ═══════════════════════════════════════
+             COREADAPTERAPI MIDDLEWARE
+        ═══════════════════════════════════════ -->
+        <mxCell id="middleware" value="COREADAPTERAPI&#xa;(MIDDLEWARE)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1D3557;strokeWidth=2;arcSize=8;fontSize=11;fontStyle=1;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="275" y="135" width="200" height="95" as="geometry"/>
+        </mxCell>
 
-    <mxCell id="ZONE_P" value="Enterprise DevOps Pipeline" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontStyle=1;startSize=23;" vertex="1" parent="1">
-      <mxGeometry x="360" y="80" width="280" height="420" as="geometry" />
-    </mxCell>
-    <mxCell id="P1" value="Vendor App Artifact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="ZONE_P">
-      <mxGeometry x="30" y="40" width="220" height="40" as="geometry" />
-    </mxCell>
-    <mxCell id="P2" value="Source Control (Git)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="ZONE_P">
-      <mxGeometry x="30" y="90" width="220" height="40" as="geometry" />
-    </mxCell>
-    <mxCell id="P3" value="CI/CD Pipeline (Jenkins)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="ZONE_P">
-      <mxGeometry x="30" y="140" width="220" height="40" as="geometry" />
-    </mxCell>
-    <mxCell id="P4" value="Security Scanning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="ZONE_P">
-      <mxGeometry x="30" y="190" width="220" height="40" as="geometry" />
-    </mxCell>
-    <mxCell id="P5" value="Image Registry (Quay)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="ZONE_P">
-      <mxGeometry x="30" y="240" width="220" height="40" as="geometry" />
-    </mxCell>
-    <mxCell id="P6" value="Deployment to OCP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="ZONE_P">
-      <mxGeometry x="30" y="290" width="220" height="40" as="geometry" />
-    </mxCell>
+        <!-- ═══════════════════════════════════════
+             KAFKA BUS
+        ═══════════════════════════════════════ -->
+        <mxCell id="kafka" value="KAFKA BUS"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9e6;strokeColor=#d6b656;strokeWidth=2;arcSize=8;fontSize=11;fontStyle=1;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="580" y="145" width="150" height="75" as="geometry"/>
+        </mxCell>
 
-    <mxCell id="ZONE_T" value="Target State - OpenShift Platform" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontStyle=1;startSize=23;strokeWidth=2;" vertex="1" parent="1">
-      <mxGeometry x="680" y="80" width="380" height="420" as="geometry" />
-    </mxCell>
-    <mxCell id="T_OCP" value="OpenShift Container Platform" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#40c057;startSize=23;" vertex="1" parent="ZONE_T">
-      <mxGeometry x="15" y="45" width="350" height="355" as="geometry" />
-    </mxCell>
-    <mxCell id="T_APP" value="&lt;b&gt;Stateless Spring Boot Service&lt;/b&gt;&lt;br&gt;&lt;font color='#2e7d32'&gt;[STATUS: STRATEGIC]&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#40c057;strokeWidth=2;" vertex="1" parent="T_OCP">
-      <mxGeometry x="35" y="40" width="280" height="150" as="geometry" />
-    </mxCell>
-    <mxCell id="T_APP_T" value="• SWIFT Message Processing&lt;br&gt;• Business Logic Layer&lt;br&gt;• MQ Integration (JMS Client)&lt;br&gt;• Database Connectivity (JDBC)" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="T_APP">
-      <mxGeometry x="10" y="30" width="260" height="100" as="geometry" />
-    </mxCell>
-    <mxCell id="T_K8S" value="K8s Service / LB" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0d47a1;" vertex="1" parent="T_OCP">
-      <mxGeometry x="35" y="210" width="130" height="40" as="geometry" />
-    </mxCell>
-    <mxCell id="T_CFG" value="ConfigMaps &amp;amp; Secrets" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0d47a1;" vertex="1" parent="T_OCP">
-      <mxGeometry x="185" y="210" width="130" height="40" as="geometry" />
-    </mxCell>
+        <!-- ═══════════════════════════════════════
+             DIGITAL CONSUMER
+        ═══════════════════════════════════════ -->
+        <mxCell id="digital_consumer" value="&lt;/&gt;&#xa;&#xa;DIGITAL CONSUMER"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#555555;strokeWidth=2;arcSize=8;fontSize=10;fontStyle=1;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="830" y="145" width="145" height="75" as="geometry"/>
+        </mxCell>
 
-    <mxCell id="I_MQ" value="&lt;b&gt;IBM MQ HUB&lt;/b&gt;&lt;br&gt;Enterprise Messaging" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0d47a1;strokeWidth=3;" vertex="1" parent="1">
-      <mxGeometry x="400" y="550" width="200" height="80" as="geometry" />
-    </mxCell>
-    <mxCell id="I_INQ" value="&lt;b&gt;SWIFT.IN.Q&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0d47a1;" vertex="1" parent="1">
-      <mxGeometry x="200" y="565" width="120" height="50" as="geometry" />
-    </mxCell>
-    <mxCell id="I_OUTQ" value="&lt;b&gt;SWIFT.OUT.Q&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0d47a1;" vertex="1" parent="1">
-      <mxGeometry x="680" y="565" width="120" height="50" as="geometry" />
-    </mxCell>
-    <mxCell id="I_DB" value="Oracle DB (19c)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
-      <mxGeometry x="900" y="540" width="100" height="100" as="geometry" />
-    </mxCell>
+        <!-- ═══════════════════════════════════════
+             CRM DB
+        ═══════════════════════════════════════ -->
+        <mxCell id="crm_db" value="CRM DB"
+          style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#dae8fc;strokeColor=#1D3557;strokeWidth=2;fontSize=11;fontStyle=1;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="1060" y="120" width="115" height="95" as="geometry"/>
+        </mxCell>
 
-    <mxCell id="A1" value="" style="endArrow=classic;html=1;strokeColor=#fd7e14;strokeWidth=4;" edge="1" parent="1" source="ZONE_L" target="ZONE_P" />
-    <mxCell id="A2" value="" style="endArrow=classic;html=1;strokeColor=#40c057;strokeWidth=4;" edge="1" parent="1" source="ZONE_P" target="ZONE_T" />
-    <mxCell id="A3" value="" style="endArrow=classic;html=1;strokeColor=#0d47a1;" edge="1" parent="1" source="I_INQ" target="I_MQ" />
-    <mxCell id="A4" value="" style="endArrow=classic;html=1;strokeColor=#0d47a1;" edge="1" parent="1" source="I_MQ" target="I_OUTQ" />
-    <mxCell id="A5" value="JMS Client" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#0d47a1;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="T_OCP" target="I_MQ" />
-    <mxCell id="A6" value="JDBC" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#333333;" edge="1" parent="1" source="T_OCP" target="I_DB" />
+        <!-- ═══════════════════════════════════════
+             ONLINE FRONTEND APP
+        ═══════════════════════════════════════ -->
+        <mxCell id="frontend_app" value="ONLINE&#xa;FRONTEND APP"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1D3557;strokeWidth=2;arcSize=5;fontSize=11;fontStyle=1;verticalAlign=bottom;"
+          vertex="1" parent="1">
+          <mxGeometry x="575" y="320" width="200" height="105" as="geometry"/>
+        </mxCell>
 
-        <mxCell id="L_ZONE" value="Diagram Legend" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;startSize=23;" vertex="1" parent="1">
-      <mxGeometry x="40" y="630" width="220" height="140" as="geometry" />
-    </mxCell>
-    <mxCell id="L_C1" value="" style="whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=none;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="10" y="40" width="20" height="15" as="geometry" />
-    </mxCell>
-    <mxCell id="L_T1" value="Legacy / Decom" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="40" y="40" width="150" height="15" as="geometry" />
-    </mxCell>
-    <mxCell id="L_C2" value="" style="whiteSpace=wrap;html=1;fillColor=#d6b656;strokeColor=none;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="10" y="60" width="20" height="15" as="geometry" />
-    </mxCell>
-    <mxCell id="L_T2" value="Transformation" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="40" y="60" width="150" height="15" as="geometry" />
-    </mxCell>
-    <mxCell id="L_C3" value="" style="whiteSpace=wrap;html=1;fillColor=#40c057;strokeColor=none;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="10" y="80" width="20" height="15" as="geometry" />
-    </mxCell>
-    <mxCell id="L_T3" value="Strategic Target" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="40" y="80" width="150" height="15" as="geometry" />
-    </mxCell>
-    <mxCell id="L_C4" value="" style="whiteSpace=wrap;html=1;fillColor=#0d47a1;strokeColor=none;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="10" y="100" width="20" height="15" as="geometry" />
-    </mxCell>
-    <mxCell id="L_T4" value="Shared Services" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="L_ZONE">
-      <mxGeometry x="40" y="100" width="150" height="15" as="geometry" />
-    </mxCell>
-  </root>
-</mxGraphModel>
-  
+        <!-- ═══════════════════════════════════════
+             OLD CUSTOMER PATH
+        ═══════════════════════════════════════ -->
+        <mxCell id="old_customer" value="OLD CUSTOMER PATH"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#5a8a5a;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#2d5a2d;"
+          vertex="1" parent="1">
+          <mxGeometry x="60" y="345" width="205" height="44" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════
+             SIEBEL DB
+        ═══════════════════════════════════════ -->
+        <mxCell id="siebel_db" value="SIEBEL DB"
+          style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#dae8fc;strokeColor=#1D3557;strokeWidth=2;fontSize=11;fontStyle=1;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="60" y="430" width="115" height="95" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════
+             CRM OFFLINE ERROR
+        ═══════════════════════════════════════ -->
+        <mxCell id="crm_offline" value="&#9888;  If CRM Offline =&#xa;New Customer &apos;Oops&apos;&#xa;(No Fallback)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6e6;strokeColor=#cc2200;strokeWidth=2.5;arcSize=8;fontSize=11;fontStyle=1;fontColor=#cc2200;"
+          vertex="1" parent="1">
+          <mxGeometry x="1040" y="305" width="210" height="92" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════
+             NEW CUSTOMER PATH
+        ═══════════════════════════════════════ -->
+        <mxCell id="new_customer" value="NEW CUSTOMER PATH"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6e6;strokeColor=#cc2200;strokeWidth=2.5;fontSize=11;fontStyle=1;fontColor=#cc2200;"
+          vertex="1" parent="1">
+          <mxGeometry x="1040" y="418" width="210" height="44" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════
+             LEGACY MIDDLEWARE API
+        ═══════════════════════════════════════ -->
+        <mxCell id="legacy_mw" value="LEGACY MIDDLEWARE API&#xa;(For Legacy Data)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#444444;strokeWidth=2;arcSize=5;fontSize=11;fontStyle=1;fontColor=#1D3557;"
+          vertex="1" parent="1">
+          <mxGeometry x="465" y="575" width="250" height="75" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════
+             LEGACY CORE BANKING SYSTEM
+        ═══════════════════════════════════════ -->
+        <mxCell id="legacy_banking" value="LEGACY CORE BANKING&#xa;SYSTEM (OLD PLATFORM)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#555555;strokeWidth=2;arcSize=5;fontSize=10;fontStyle=1;fontColor=#1D3557;verticalAlign=bottom;"
+          vertex="1" parent="1">
+          <mxGeometry x="815" y="560" width="170" height="105" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════
+             ARROWS
+        ═══════════════════════════════════════ -->
+
+        <!-- Core System → Middleware: Event Push API (Async) — solid -->
+        <mxCell id="e1" value="a) Event Push API (Async)"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1D3557;strokeWidth=2;fillColor=none;endArrow=block;endFill=1;fontSize=10;fontColor=#1D3557;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.35;entryDx=0;entryDy=0;"
+          edge="1" source="core_sys" target="middleware" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Core System → Middleware: REST APIs (Sync) — dashed -->
+        <mxCell id="e2" value="b) REST APIs (Sync)"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1D3557;strokeWidth=2;fillColor=none;dashed=1;endArrow=open;endFill=0;fontSize=10;fontColor=#1D3557;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;"
+          edge="1" source="core_sys" target="middleware" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Middleware → Kafka Bus -->
+        <mxCell id="e3" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1D3557;strokeWidth=2;fillColor=none;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="middleware" target="kafka" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Kafka → Digital Consumer -->
+        <mxCell id="e4" value="Consume Event"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1D3557;strokeWidth=2;fillColor=none;endArrow=block;endFill=1;fontSize=10;fontColor=#1D3557;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="kafka" target="digital_consumer" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Digital Consumer → CRM DB -->
+        <mxCell id="e5" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1D3557;strokeWidth=2;fillColor=none;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="digital_consumer" target="crm_db" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CRM DB → Online Frontend App: 1. Primary Read -->
+        <mxCell id="e6" value="1. Primary Read&#xa;(Connects both New &amp; Legacy)"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1D3557;strokeWidth=2;fillColor=none;endArrow=block;endFill=1;fontSize=10;fontColor=#1D3557;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1060" y="186" as="sourcePoint"/>
+            <mxPoint x="775" y="340" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1000" y="186"/>
+              <mxPoint x="1000" y="290"/>
+              <mxPoint x="775" y="290"/>
+              <mxPoint x="775" y="340"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- CRM DB → CRM Offline (dashed red) -->
+        <mxCell id="e7" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#cc2200;strokeWidth=2;fillColor=none;dashed=1;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+          edge="1" source="crm_db" target="crm_offline" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Frontend App → CRM Offline (dashed red) -->
+        <mxCell id="e8" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#cc2200;strokeWidth=2;fillColor=none;dashed=1;endArrow=block;endFill=1;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;"
+          edge="1" source="frontend_app" target="crm_offline" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="352"/>
+              <mxPoint x="900" y="379"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Old Customer Path → Frontend App (solid green) -->
+        <mxCell id="e9" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#5a8a5a;strokeWidth=2;fillColor=none;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.6;entryDx=0;entryDy=0;"
+          edge="1" source="old_customer" target="frontend_app" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Frontend App → Middleware: Fetch Deep Data REST (dotted blue) -->
+        <mxCell id="e10" value="Fetch Deep Data&#xa;(REST)"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#3366cc;strokeWidth=2;fillColor=none;dashed=1;endArrow=open;endFill=0;fontSize=10;fontColor=#3366cc;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;"
+          edge="1" source="frontend_app" target="middleware" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="346"/>
+              <mxPoint x="375" y="230"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Frontend App → Siebel DB: 2. Fallback Read (dashed green) -->
+        <mxCell id="e11" value="2. Fallback Read&#xa;(If CRM Offline)"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#5a8a5a;strokeWidth=2;fillColor=none;dashed=1;endArrow=open;endFill=0;fontSize=10;fontColor=#336633;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="frontend_app" target="siebel_db" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="395"/>
+              <mxPoint x="220" y="395"/>
+              <mxPoint x="220" y="478"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Frontend App → Legacy Middleware: Legacy Data Read (dotted purple) -->
+        <mxCell id="e12" value="Legacy Data Read&#xa;(Deep / Legacy Data)"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7733aa;strokeWidth=2;fillColor=none;dashed=1;endArrow=open;endFill=0;fontSize=10;fontColor=#7733aa;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+          edge="1" source="frontend_app" target="legacy_mw" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Legacy Middleware → Legacy Core Banking (solid dark) -->
+        <mxCell id="e13" value=""
+          style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#444444;strokeWidth=2;fillColor=none;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+          edge="1" source="legacy_mw" target="legacy_banking" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════
+             LEGEND
+        ═══════════════════════════════════════ -->
+        <mxCell id="legend_box" value=""
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#aaaaaa;strokeWidth=1;arcSize=3;"
+          vertex="1" parent="1">
+          <mxGeometry x="40" y="710" width="1260" height="90" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="leg_title" value="LEGEND"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#1D3557;"
+          vertex="1" parent="1">
+          <mxGeometry x="55" y="720" width="65" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Primary Flow -->
+        <mxCell id="lp1" value="" style="edgeStyle=none;html=1;strokeColor=#1D3557;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="140" y="728" as="sourcePoint"/><mxPoint x="195" y="728" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="lp1l" value="Primary Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="200" y="720" width="95" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- Fallback Flow -->
+        <mxCell id="lp2" value="" style="edgeStyle=none;html=1;strokeColor=#5a8a5a;strokeWidth=2;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="140" y="755" as="sourcePoint"/><mxPoint x="195" y="755" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="lp2l" value="Fallback / Alternative Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="200" y="747" width="155" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Inquiry REST -->
+        <mxCell id="lp3" value="" style="edgeStyle=none;html=1;strokeColor=#3366cc;strokeWidth=2;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="400" y="728" as="sourcePoint"/><mxPoint x="455" y="728" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="lp3l" value="Data Inquiry / Fetch (REST)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="460" y="720" width="155" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- Legacy Data Path -->
+        <mxCell id="lp4" value="" style="edgeStyle=none;html=1;strokeColor=#7733aa;strokeWidth=2;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="400" y="755" as="sourcePoint"/><mxPoint x="455" y="755" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="lp4l" value="Legacy Data Path" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="460" y="747" width="120" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- Icon: Database -->
+        <mxCell id="lic1" value="DB" style="shape=cylinder3;whiteSpace=wrap;html=1;size=8;fillColor=#dae8fc;strokeColor=#1D3557;strokeWidth=1.5;fontSize=9;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="700" y="714" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lic1l" value="Database" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="688" y="756" width="65" height="16" as="geometry"/>
+        </mxCell>
+
+        <!-- Icon: Middleware -->
+        <mxCell id="lic2" value="⚙" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1D3557;strokeWidth=1.5;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="820" y="714" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lic2l" value="Middleware" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="808" y="756" width="65" height="16" as="geometry"/>
+        </mxCell>
+
+        <!-- Icon: Kafka -->
+        <mxCell id="lic3" value="✦" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9e6;strokeColor=#d6b656;strokeWidth=1.5;fontSize=20;fontColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="940" y="714" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lic3l" value="Kafka" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="928" y="756" width="65" height="16" as="geometry"/>
+        </mxCell>
+
+        <!-- Icon: Application -->
+        <mxCell id="lic4" value="&lt;/&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="714" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lic4l" value="Application" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1046" y="756" width="68" height="16" as="geometry"/>
+        </mxCell>
+
+        <!-- Icon: Legacy System -->
+        <mxCell id="lic5" value="🏛" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;fontSize=22;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="714" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lic5l" value="Legacy System" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1164" y="756" width="73" height="16" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
   </diagram>
 </mxfile>
