@@ -1,211 +1,79 @@
-Perfect — below is a **management-ready modernization proposal document** written in a professional tone, suitable for presenting to architecture review boards, IT leadership, or modernization steering committees.
-It’s structured like an **executive + technical overview**, highlighting current gaps, target state, business value, and a practical implementation roadmap.
-
----
-
-# **SFTP File Transfer Modernization Proposal**
-
-### **Prepared For:** Enterprise IT / Integration Architecture Board
-
-### **Prepared By:** [Your Name / Team]
-
-### **Date:** [Insert Date]
-
----
-
-## **1. Executive Summary**
-
-Our current SFTP file transfer solution enables exchange of files between local applications, the enterprise SFTP hub, and external partners. While functionally stable, the solution lacks central visibility, automation, and scalability features needed to support modern integration operations.
-
-This proposal outlines the modernization of the current setup using **OpenShift**, **Stonebranch**, and **Enterprise Logging (ELK)** to achieve:
-
-* **Real-time file arrival visibility** and operational dashboards
-* **Event-driven orchestration** instead of scheduled polling
-* **Centralized monitoring, alerting, and SLA tracking**
-* **Containerized deployment for scalability and resilience**
-* **Improved governance, security, and auditability**
-
----
-
-## **2. Current Architecture (As-Is)**
-
-### **Overview**
-
-The existing design consists of two independent data flows – **Outgoing** (local to external) and **Incoming** (external to local). These flows are functional but rely on manual scheduling, lack real-time monitoring, and depend heavily on local logs for troubleshooting.
-
-### **2.1 Outgoing Flow**
-
-* Source systems deposit outbound files into **app-specific NAS folders** (e.g., `\\nas\appA\outbound`).
-* A **Spring Boot SFTP client** scans these folders on a schedule and transfers the files to the **Enterprise SFTP**.
-* Enterprise SFTP routes them to appropriate external destinations.
-* Scheduling is time-based (cron/threads).
-* Limited logging and no centralized success/failure dashboard.
-
-### **2.2 Incoming Flow**
-
-* External partners send files to the **Enterprise SFTP**, which routes them to **Local SFTP drop paths** (e.g., `\\nas\appA\inbound`).
-* The **local SFTP** server writes files to NAS-mapped inbound folders.
-* The **owning applications** (not Spring Boot) pick up and process these files.
-* There is no automated monitoring or alerting for file arrivals, missing files, or SLA breaches.
-* Operations teams depend on manual checks or notifications from business users.
-
-### **2.3 Current Challenges**
-
-| Area            | Pain Point                                                              |
-| --------------- | ----------------------------------------------------------------------- |
-| **Monitoring**  | No single view of which files arrived, when, and for which application. |
-| **Scheduling**  | Outbound transfers rely on cron/polling; no event-driven triggers.      |
-| **Alerting**    | Failures and delays discovered manually.                                |
-| **Scalability** | Fixed VM/thread-based app; no container deployment.                     |
-| **Logging**     | Logs stored locally; no integration with central ELK/Kibana.            |
-| **Security**    | SFTP credentials managed locally; no centralized secrets.               |
-| **Governance**  | No SLA-based reporting or historical metrics.                           |
-
----
-
-## **3. Target Architecture (To-Be)**
-
-The proposed modernization introduces containerization, centralized orchestration, event-driven file detection, and unified observability.
-
-### **3.1 Key Technologies**
-
-* **OpenShift (OCP)** – container platform for Spring Boot deployment.
-* **Stonebranch Universal Automation Center (UAC)** – enterprise scheduler/orchestrator and event-driven workflow manager.
-* **Enterprise ELK (Elasticsearch, Logstash/Fluentd, Kibana)** – for centralized logging and dashboards.
-* **Vault/OpenShift Secrets** – secure management of credentials and SSH keys.
-
----
-
-## **4. Target Architecture Description**
-
-### **4.1 Outgoing Flow (Local → External)**
-
-* Source systems continue dropping files in NAS outbound folders.
-* The **Spring Boot SFTP client**, now containerized and deployed in **OpenShift**, scans these folders and transfers files to Enterprise SFTP.
-* **Stonebranch** orchestrates this process:
-
-  * Triggers jobs on schedule or via dependency logic.
-  * Tracks execution status, duration, and outcomes.
-  * Raises alerts on failures or missed SLAs.
-* **Structured logs** from Spring Boot are forwarded to **Elasticsearch** automatically via OCP logging.
-* **Kibana dashboards** display transfer statistics, recent file sends, and error trends.
-
-### **4.2 Incoming Flow (External → Local)**
-
-* Files routed from **Enterprise SFTP** land in **Local SFTP drop paths** (NAS-mapped inbound folders).
-* A **Stonebranch Universal Agent** is installed on the NAS host (or a host with NAS mounts).
-* **File Watcher Tasks** detect file arrivals in real time and record:
-
-  * File name, size, timestamp, source route, checksum.
-* Watchers can optionally:
-
-  * Trigger notifications to owning applications (via webhooks or message queues), or
-  * Launch downstream workflows in Stonebranch (if the app has automation integrated).
-* Arrival metadata is logged centrally in **Elasticsearch** for visibility and historical reporting.
-* Application teams continue to own pickup and processing, but they now benefit from:
-
-  * Verified arrival timestamps
-  * SLA alerts
-  * Central dashboards showing files pending pickup
-
----
-
-## **5. Monitoring and Observability**
-
-| Layer                            | Tool                            | Functionality                                                         |
-| -------------------------------- | ------------------------------- | --------------------------------------------------------------------- |
-| **Workflow / Job orchestration** | Stonebranch UAC                 | Job runs, next/last schedule, SLA alerts, file watcher status         |
-| **Application & Transfer logs**  | OpenShift → ELK                 | Centralized structured logging for Spring Boot outbound jobs          |
-| **File arrival metadata**        | Stonebranch + ELK               | Real-time visibility of inbound files (timestamp, size, checksum)     |
-| **Metrics & KPIs**               | Prometheus + Grafana (optional) | Outbound/inbound file counts, average transfer time, SLA compliance   |
-| **Alerting & Notifications**     | Stonebranch / ELK Alerts        | Automated alerts via email, Teams, or Slack for missing/delayed files |
-
----
-
-## **6. Security and Governance Enhancements**
-
-* **Credentials & SSH keys** stored in **OpenShift Secrets** or **Vault** instead of local property files.
-* **Role-Based Access Control (RBAC)** for operational access and job execution.
-* **Centralized audit trail** for all file arrivals, transfers, and job runs.
-* **Checksum validation** for file integrity verification.
-* **Retention policy and archival** implemented through Stonebranch workflows.
-
----
-
-## **7. Benefits of Modernization**
-
-| Benefit                          | Description                                                               |
-| -------------------------------- | ------------------------------------------------------------------------- |
-| **Operational Visibility**       | Real-time dashboards for both inbound and outbound flows.                 |
-| **Event-driven Processing**      | File watcher triggers eliminate constant polling and delays.              |
-| **Improved Reliability**         | Automated restart and retry via Stonebranch; self-healing OpenShift pods. |
-| **Scalability**                  | OpenShift-based deployment supports horizontal scaling.                   |
-| **Centralized Logging & Alerts** | Unified view in Kibana and automated alerting.                            |
-| **Audit & Compliance**           | End-to-end traceability of all files and jobs.                            |
-| **Security**                     | Secrets managed securely and access centrally controlled.                 |
-| **Reduced Manual Overhead**      | Elimination of manual monitoring and ad-hoc checks.                       |
-
----
-
-## **8. Implementation Roadmap**
-
-| Phase                               | Key Activities                                                                      | Deliverables                                        |
-| ----------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------- |
-| **Phase 1 – Foundation**            | Containerize Spring Boot app; deploy to OpenShift; enable ELK logging               | Containerized outbound app with centralized logging |
-| **Phase 2 – Orchestration**         | Deploy Stonebranch Universal Agent; configure scheduler/workflows for outbound jobs | Automated outbound transfers with monitoring        |
-| **Phase 3 – Inbound Monitoring**    | Set up File Watcher tasks for inbound NAS folders; log metadata to ELK              | Real-time inbound file arrival visibility           |
-| **Phase 4 – Security & Governance** | Move credentials to Vault/OpenShift Secrets; enable RBAC                            | Secure and compliant configuration                  |
-| **Phase 5 – Dashboards & Alerts**   | Create Kibana and Stonebranch dashboards; define SLA alerts                         | End-to-end operational visibility                   |
-| **Phase 6 – Optimization**          | Integrate optional audit DB, message-based triggers, or Grafana metrics             | Enhanced analytics and resilience                   |
-
----
-
-## **9. Example Dashboards & Reporting**
-
-### **Stonebranch Dashboard**
-
-* Job Run History (success/failure/last duration)
-* File Watcher Events (path, timestamp, file count)
-* SLA Monitors (expected vs actual arrival)
-* Next scheduled runs
-
-### **Kibana Dashboard**
-
-* Inbound File Arrivals by Application
-* Outbound Transfers by Source System
-* Failed Transfer Trend (last 7 days)
-* File Processing Latency (arrival to pickup)
-* SLA Compliance Summary
-
----
-
-## **10. Summary and Recommendation**
-
-Modernizing the SFTP file transfer landscape will transform the platform from a manually monitored, loosely integrated solution into a **resilient, observable, and secure enterprise service**.
-By adopting **OpenShift** for deployment, **Stonebranch** for orchestration, and **ELK** for observability, we achieve:
-
-* **Unified operational intelligence** across all file movements.
-* **Event-driven automation** that minimizes latency and manual oversight.
-* **Secure, auditable, and scalable infrastructure** aligned with enterprise standards.
-
-**Recommendation:**
-Approve and initiate the phased modernization as outlined, beginning with containerization and observability, followed by orchestration and SLA automation.
-
----
-
-## **Appendix**
-
-**Key Components:**
-
-* **Spring Boot** (outbound SFTP client)
-* **Stonebranch UAC** (scheduler, orchestrator, file watcher)
-* **OpenShift** (deployment and scaling)
-* **Enterprise SFTP** (routing hub)
-* **Local SFTP / NAS** (landing zones)
-* **ELK Stack** (log and event analytics)
-* **Vault / OCP Secrets** (security)
-* **Grafana (optional)** (operational metrics)
-
----
-
-Would you like me to format this document into a downloadable **Word (.docx)** or **PDF** version with enterprise styling (headers, table of contents, logo placeholders, etc.) for presentation to management?
+<mxfile host="app.diagrams.net">
+  <diagram name="Future State TO-BE" id="Wds87XSmG_IkvuRSBZr-">
+    <mxGraphModel dx="1269" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="DHjnIsjCJbB84L7LRcur-22" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;fontColor=#004C99;" value="STRATEGIC FUTURE STATE (TO-BE) ARCHITECTURE" vertex="1">
+          <mxGeometry height="50" width="1000" x="84.5" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f2ede4;strokeColor=#888888;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;arcSize=3;dashed=1;" value="LAYER 1: SOURCE SYSTEMS" vertex="1">
+          <mxGeometry height="650" width="300" x="30" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;strokeWidth=2;fontStyle=1;" value="CORE BANKING SYSTEM" vertex="1">
+          <mxGeometry height="80" width="240" x="60" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-25" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;fontStyle=1;fontSize=14;" value="MASTER DB" vertex="1">
+          <mxGeometry height="120" width="180" x="90" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;arcSize=3;" value="LAYER 2: INTEGRATION &amp; ORCHESTRATION" vertex="1">
+          <mxGeometry height="650" width="360" x="370" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#555555;strokeWidth=2;" value="ADAPTER API" vertex="1">
+          <mxGeometry height="60" width="240" x="430" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#555555;strokeWidth=1.5;" value="KAFKA BUS" vertex="1">
+          <mxGeometry height="40" width="240" x="430" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;fontStyle=1;" value="DATA SYNC &amp; ORCHESTRATION ENGINE" vertex="1">
+          <mxGeometry height="90" width="240" x="430" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontStyle=1;" value="REAL-TIME DATA HYDRATOR&lt;br&gt;(Enrichment API)" vertex="1">
+          <mxGeometry height="70" width="200" x="450" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;arcSize=3;" value="LAYER 3: CONSUMER LAYER" vertex="1">
+          <mxGeometry height="650" width="340" x="770" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0066cc;strokeWidth=3;fontStyle=1;fontSize=14;" value="ONLINE FRONTEND APP" vertex="1">
+          <mxGeometry height="100" width="240" x="820" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-33" edge="1" parent="1" source="DHjnIsjCJbB84L7LRcur-30" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;strokeColor=#d6b656;dashed=1;endArrow=block;curved=1;" target="DHjnIsjCJbB84L7LRcur-24">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint value="Fetch Full Context" as="offset" />
+            <Array as="points">
+              <mxPoint x="400" y="515" />
+              <mxPoint x="400" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-34" edge="1" parent="1" source="DHjnIsjCJbB84L7LRcur-29" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=3;strokeColor=#82b366;endArrow=block;endFill=1;" target="DHjnIsjCJbB84L7LRcur-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-35" edge="1" parent="1" source="DHjnIsjCJbB84L7LRcur-32" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=4;strokeColor=#0066cc;endArrow=block;endFill=1;" target="DHjnIsjCJbB84L7LRcur-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="380" />
+              <mxPoint x="750" y="220" />
+              <mxPoint x="180" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-36" edge="1" parent="1" source="DHjnIsjCJbB84L7LRcur-29" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;strokeColor=#d6b656;startArrow=classic;" target="DHjnIsjCJbB84L7LRcur-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#333333;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="80" width="1080" x="30" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-38" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" value="&lt;font color=&#39;#0066cc&#39;&gt;▬&lt;/font&gt; &lt;b&gt;Unified Read&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="120" x="140" y="775" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-39" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" value="&lt;font color=&#39;#82b366&#39;&gt;▬&lt;/font&gt; &lt;b&gt;Strategic Write&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="120" x="370" y="775" as="geometry" />
+        </mxCell>
+        <mxCell id="DHjnIsjCJbB84L7LRcur-40" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" value="&lt;font color=&#39;#d6b656&#39;&gt;---&lt;/font&gt; &lt;b&gt;Full Context Hydration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="180" x="620" y="775" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
