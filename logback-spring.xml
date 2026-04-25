@@ -1,76 +1,161 @@
-
 <mxfile>
-  <diagram name="Executive AI Architecture" id="exec-ai-2026">
-    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <diagram name="Page-1" id="B_ywjp4-uaEGRtPBrGu2">
+    <mxGraphModel dx="1813" dy="803" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-
-        <mxCell id="L3_Title" value="LAYER 3: EXPERIENCE LAYER (OMNICHANNEL)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;fontColor=#666666;" vertex="1" parent="1">
-          <mxGeometry x="840" y="40" width="300" height="30" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=22;fontStyle=1;fontColor=#1a1a2e;" value="CURRENT STATE (AS-IS)&amp;nbsp;" vertex="1">
+          <mxGeometry height="34" width="1000" x="301" y="8" as="geometry" />
         </mxCell>
-        <mxCell id="L2_Title" value="LAYER 2: INTELLIGENCE &amp; ORCHESTRATION" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;fontColor=#666666;" vertex="1" parent="1">
-          <mxGeometry x="380" y="40" width="400" height="30" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#1B3A5C;strokeWidth=2;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="538" width="170" x="101" y="62" as="geometry" />
         </mxCell>
-        <mxCell id="L1_Title" value="LAYER 1: STRATEGIC DATA FOUNDATION" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;fontColor=#666666;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="300" height="30" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-4" parent="1" style="text;html=1;strokeColor=none;fillColor=#1B3A5C;align=center;verticalAlign=middle;fontSize=10;fontStyle=1;fontColor=#ffffff;rounded=1;arcSize=10;" value="1. SOURCE SYSTEMS" vertex="1">
+          <mxGeometry height="28" width="175" x="101" y="62" as="geometry" />
         </mxCell>
-
-        <mxCell id="master_db" value="MASTER DATA&lt;br&gt;PLATFORM&lt;br&gt;(Unified Strategic Store)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="280" width="180" height="200" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#BBBBBB;fontSize=10;arcSize=8;verticalAlign=middle;" value="&lt;b&gt;SALESFORCE&lt;/b&gt;&lt;br&gt;(Cloud App)" vertex="1">
+          <mxGeometry height="100" width="151" x="113" y="102" as="geometry" />
         </mxCell>
-        <mxCell id="core_banking" value="CORE BANKING&lt;br&gt;(Legacy System)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="100" width="180" height="80" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#BBBBBB;fontSize=10;arcSize=8;verticalAlign=middle;" value="&lt;b&gt;CORE BANKING&lt;br&gt;SYSTEM&lt;/b&gt;&lt;br&gt;(Primary)" vertex="1">
+          <mxGeometry height="100" width="151" x="113" y="270" as="geometry" />
         </mxCell>
-
-        <mxCell id="ai_engine" value="AI INTELLIGENCE ENGINE&lt;br&gt;— Recommendation Models&lt;br&gt;— Fraud Scoring&lt;br&gt;— Propensity Analytics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#0066cc;strokeWidth=4;fontStyle=1;gradientColor=#7ea6e0;fontColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="410" y="420" width="320" height="140" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#BBBBBB;fontSize=10;arcSize=8;verticalAlign=middle;" value="&lt;b&gt;LEGACY CORE&lt;br&gt;BANKING SYSTEM&lt;/b&gt;&lt;br&gt;(Legacy)" vertex="1">
+          <mxGeometry height="100" width="151" x="113" y="448" as="geometry" />
         </mxCell>
-
-        <mxCell id="orchestrator" value="DATA SYNC &amp; &lt;br&gt;ORCHESTRATION HUB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="410" y="200" width="320" height="80" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F5FB;strokeColor=#1B3A5C;strokeWidth=2;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="530" width="970" x="318" y="62" as="geometry" />
         </mxCell>
-
-        <mxCell id="hydrator" value="REAL-TIME&lt;br&gt;CONTEXT HYDRATOR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontStyle=1;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="480" y="310" width="180" height="60" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-9" parent="1" style="text;html=1;strokeColor=none;fillColor=#1B3A5C;align=center;verticalAlign=middle;fontSize=10;fontStyle=1;fontColor=#ffffff;rounded=1;arcSize=10;" value="2. LAYER 2: INTEGRATION &amp; MIDDLEWARE" vertex="1">
+          <mxGeometry height="28" width="970" x="318" y="62" as="geometry" />
         </mxCell>
-
-        <mxCell id="portal" value="ONLINE BANKING&lt;br&gt;FRONTEND PORTAL" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#0066cc;strokeWidth=4;fontStyle=1;fontSize=16;" vertex="1" parent="1">
-          <mxGeometry x="880" y="280" width="220" height="160" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF0FB;strokeColor=#4472C4;strokeWidth=1.5;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="234" width="950" x="328" y="96" as="geometry" />
         </mxCell>
-
-        <mxCell id="flow_ai_req" edge="1" parent="1" source="portal" target="ai_engine" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#0066cc;strokeWidth=3;endArrow=block;fontColor=#0066cc;fontSize=11;" value="Request Insights">
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-11" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontStyle=1;fontColor=#1B3A5C;" value="A. EVENT-DRIVEN INTEGRATION (REAL-TIME SYNC)" vertex="1">
+          <mxGeometry height="20" width="950" x="328" y="99" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-12" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8.5;fontColor=#1B3A5C;" value="&lt;b&gt;FLOW 1: CORE BANKING → SALESFORCE &amp; CRM DB&lt;/b&gt;&lt;br&gt;Core Banking publishes events.&lt;br&gt;Updates flow to Salesforce and CRM DB." vertex="1">
+          <mxGeometry height="46" width="310" x="338" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-13" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8.5;fontColor=#444444;" value="&lt;b&gt;&lt;font color=&quot;#CC0000&quot;&gt;FLOW 2: SALESFORCE → CORE BANKING&lt;/font&gt;&lt;/b&gt;&lt;br&gt;Salesforce publishes events.&lt;br&gt;Updates flow back to Core Banking." vertex="1">
+          <mxGeometry height="46" width="310" x="743" y="116" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4472C4;strokeWidth=1.5;fontSize=10;arcSize=5;verticalAlign=middle;" value="&lt;b&gt;CORE BANKING&lt;br&gt;ADAPTER API&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px;&quot; color=&quot;#555555&quot;&gt;Publishes events to Kafka&lt;br&gt;and processes incoming&lt;br&gt;events from Kafka.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="92" width="175" x="350" y="178" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4472C4;strokeWidth=1.5;fontSize=10;arcSize=5;verticalAlign=middle;" value="&lt;b&gt;KAFKA BUS&lt;/b&gt;&lt;br&gt;&lt;i&gt;(Event Stream)&lt;/i&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px;&quot; color=&quot;#555555&quot;&gt;Central event backbone.&lt;br&gt;Events are published by&lt;br&gt;producers and consumed&lt;br&gt;by connectors/APIs.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="92" width="175" x="628" y="181" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4472C4;strokeWidth=1.5;fontSize=10;arcSize=5;verticalAlign=middle;" value="&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;SALESFORCE&lt;br&gt;CONNECTOR&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 8px;&quot; color=&quot;#555555&quot;&gt;Kafka ConsumerConsumes events and&lt;br&gt;upserts data inSalesforce.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="175" x="968" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4472C4;strokeWidth=1.5;fontSize=10;arcSize=5;verticalAlign=middle;" value="&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;CRM DB&lt;br&gt;CONNECTOR&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 8px;&quot; color=&quot;#555555&quot;&gt;Kafka Consumer&amp;nbsp; Consumes events and&lt;br&gt;upserts data in CRM DB.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="175" x="968" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF0F0;strokeColor=#C0504D;strokeWidth=1.5;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="100" width="950" x="324" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-19" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontStyle=1;fontColor=#8B1A1A;" value="B. LEGACY INTEGRATION (LEGACY PATH)" vertex="1">
+          <mxGeometry height="20" width="430" x="696" y="363" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#C0504D;strokeWidth=1.5;fontSize=10;arcSize=5;verticalAlign=middle;" value="&lt;b&gt;LEGACY MIDDLEWARE API&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px;&quot; color=&quot;#555555&quot;&gt;Synchronous integration for legacy customers.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="64" width="185" x="619" y="369" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F7F0;strokeColor=#2E7D32;strokeWidth=1.5;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="110" width="950" x="328" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-22" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=1;fontColor=#1B5E20;" value="4. DATA STORES" vertex="1">
+          <mxGeometry height="20" width="200" x="338" y="491" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2E7D32;strokeWidth=1.5;fontSize=10;arcSize=5;verticalAlign=middle;" value="&lt;b&gt;CRM DB&lt;/b&gt;&lt;br&gt;&lt;i&gt;(Primary)&lt;/i&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px;&quot; color=&quot;#555555&quot;&gt;Source for new customers.&lt;br&gt;No fallback.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="170" x="513" y="491" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#7B5EA7;strokeWidth=1.5;fontSize=10;arcSize=5;verticalAlign=middle;" value="&lt;b&gt;SIEBEL DB&lt;/b&gt;&lt;br&gt;&lt;i&gt;(Fallback)&lt;/i&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px;&quot; color=&quot;#555555&quot;&gt;Used only for old customers&lt;br&gt;when CRM DB is unavailable.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="200" x="743" y="491" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F7F0;strokeColor=#1B5E20;strokeWidth=2;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="528" width="215" x="1338" y="62" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-26" parent="1" style="text;html=1;strokeColor=none;fillColor=#1B5E20;align=center;verticalAlign=middle;fontSize=10;fontStyle=1;fontColor=#ffffff;rounded=1;arcSize=10;" value="3. CONSUMER (FRONTEND)" vertex="1">
+          <mxGeometry height="28" width="215" x="1338" y="62" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-27" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;fontColor=#1B3A5C;fontStyle=1;" value="&lt;b&gt;ONLINE FRONTEND&lt;br&gt;APPLICATION&lt;/b&gt;" vertex="1">
+          <mxGeometry height="34" width="215" x="1338" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;strokeWidth=1.5;fontSize=10;arcSize=5;align=left;spacingLeft=6;verticalAlign=top;spacingTop=6;" value="&lt;b&gt;A. NEW CUSTOMER JOURNEY&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:8.5px;&quot;&gt;1. Frontend reads data:&lt;br&gt;&amp;nbsp;&amp;nbsp;• Primary: CRM DB&lt;br&gt;&amp;nbsp;&amp;nbsp;• If CRM DB offline: Show Error&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;(No Fallback)&lt;br&gt;&lt;br&gt;2. After login, Frontend calls&lt;br&gt;&amp;nbsp;&amp;nbsp;Core Banking Adapter API&lt;br&gt;&amp;nbsp;&amp;nbsp;to read data from&lt;br&gt;&amp;nbsp;&amp;nbsp;Core Banking System.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="195" width="195" x="1348" y="134" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#C0504D;strokeWidth=1.5;fontSize=10;arcSize=5;align=left;spacingLeft=6;verticalAlign=top;spacingTop=6;" value="&lt;b&gt;B. OLD CUSTOMER JOURNEY&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:8.5px;&quot;&gt;1. Frontend reads data:&lt;br&gt;&amp;nbsp;&amp;nbsp;• Primary: CRM DB&lt;br&gt;&amp;nbsp;&amp;nbsp;• Fallback: Siebel DB&lt;br&gt;&lt;br&gt;2. After login, Frontend calls&lt;br&gt;&amp;nbsp;&amp;nbsp;Legacy Middleware API&lt;br&gt;&amp;nbsp;&amp;nbsp;to read data from&lt;br&gt;&amp;nbsp;&amp;nbsp;Legacy Core Banking System.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="200" width="195" x="1348" y="346" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-46" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#aaaaaa;strokeWidth=1;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="160" width="400" x="101" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-47" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=1;" value="LEGEND" vertex="1">
+          <mxGeometry height="16" width="80" x="109" y="655" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-48" edge="1" parent="1" style="endArrow=block;endFill=1;strokeColor=#1B3A8A;strokeWidth=2;" value="">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points"><mxPoint x="1050" y="520" /></Array>
+            <mxPoint x="109" y="682" as="sourcePoint" />
+            <mxPoint x="156" y="682" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-
-        <mxCell id="flow_ai_data" edge="1" parent="1" source="ai_engine" target="master_db" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0066cc;strokeWidth=2;dashed=1;endArrow=classic;fontSize=11;" value="Context Retrieval (RAG)">
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-49" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8.5;" value="Primary Flow (Synchronous / Direct)" vertex="1">
+          <mxGeometry height="16" width="330" x="161" y="674" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-50" edge="1" parent="1" style="endArrow=block;endFill=1;strokeColor=#1B6B1B;strokeWidth=2;" value="">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points"><mxPoint x="320" y="490" /></Array>
+            <mxPoint x="109" y="704" as="sourcePoint" />
+            <mxPoint x="156" y="704" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-
-        <mxCell id="flow_write" edge="1" parent="1" source="orchestrator" target="master_db" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=3;endArrow=block;fontSize=11;" value="Validated Sync">
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-51" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8.5;" value="Event Flow (Asynchronous) Forward Sync (Core Banking → Others)" vertex="1">
+          <mxGeometry height="16" width="330" x="161" y="696" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-52" edge="1" parent="1" style="endArrow=block;endFill=1;strokeColor=#CC0000;strokeWidth=2;dashed=1;dashPattern=10 5;" value="">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points"><mxPoint x="350" y="240" /><mxPoint x="350" y="320" /></Array>
+            <mxPoint x="109" y="726" as="sourcePoint" />
+            <mxPoint x="156" y="726" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-
-        <mxCell id="flow_hydrate" edge="1" parent="1" source="hydrator" target="core_banking" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;strokeWidth=2;dashed=1;endArrow=classic;fontSize=11;" value="Fetch Missing Context">
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-53" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8.5;" value="Event Flow (Asynchronous) Reverse Sync (Salesforce → Core Banking) (Salesforce is the only initiator)" vertex="1">
+          <mxGeometry height="26" width="330" x="161" y="715" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-54" edge="1" parent="1" style="endArrow=block;endFill=1;strokeColor=#00008B;strokeWidth=2;dashed=1;dashPattern=8 4;" value="">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points"><mxPoint x="400" y="340" /><mxPoint x="400" y="140" /></Array>
+            <mxPoint x="109" y="754" as="sourcePoint" />
+            <mxPoint x="156" y="754" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-
-        <mxCell id="flow_read" edge="1" parent="1" source="portal" target="master_db" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#333333;strokeWidth=2;endArrow=block;fontSize=11;" value="Unified Transactional Read">
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-55" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8.5;" value="Fallback Read (Asynchronous Read)" vertex="1">
+          <mxGeometry height="16" width="330" x="161" y="746" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-56" edge="1" parent="1" style="endArrow=block;endFill=1;strokeColor=#8B1A1A;strokeWidth=2;" value="">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points"><mxPoint x="990" y="140" /><mxPoint x="320" y="140" /><mxPoint x="320" y="350" /></Array>
+            <mxPoint x="109" y="774" as="sourcePoint" />
+            <mxPoint x="156" y="774" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-
-        <mxCell id="legend" value="&lt;b&gt;ARCHITECTURAL PRINCIPLES:&lt;/b&gt;&lt;br&gt;1. DECOUPLED INTELLIGENCE: AI service is isolated from legacy core.&lt;br&gt;2. DATA HYDRATION: Ensures Master DB is never 'thin' or incomplete.&lt;br&gt;3. CONTEXTUAL RAG: AI reads from Master DB to provide real-time hyper-personalization." style="text;html=1;strokeColor=#666666;fillColor=#ffffff;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=12;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
-          <mxGeometry x="40" y="620" width="1080" height="80" as="geometry" />
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-57" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8.5;" value="Legacy Flow (Synchronous)" vertex="1">
+          <mxGeometry height="16" width="280" x="161" y="766" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-66" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#aaaaaa;strokeWidth=1;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="160" width="450" x="509" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-67" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=1;" value="FLOW SUMMARY" vertex="1">
+          <mxGeometry height="16" width="200" x="517" y="655" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-68" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=8.5;fontColor=#333333;whiteSpace=wrap;" value="1. Core Banking publishes events to Kafka. Kafka routes events to Salesforce Connector and CRM DB Connector to update Salesforce and CRM DB.&lt;br&gt;&lt;br&gt;2. Salesforce can publish events to Kafka. Kafka routes events to Core Banking Adapter API, which processes and updates Core Banking System.&lt;br&gt;&lt;br&gt;3. CRM DB is updated via events and is used by frontend as the primary read store for all customers. New customers have no fallback.&lt;br&gt;&lt;br&gt;4. Old customers fall back to Siebel DB only when CRM DB is unavailable.&lt;br&gt;&lt;br&gt;5. New customers call Core Banking Adapter API after login. Old customers call Legacy Middleware API after login." vertex="1">
+          <mxGeometry height="146" width="434" x="517" y="674" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-69" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBF0;strokeColor=#E6A817;strokeWidth=1.5;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="160" width="524" x="967" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-70" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=1;fontColor=#CC6600;" value="KEY CURRENT STATE ISSUES" vertex="1">
+          <mxGeometry height="16" width="280" x="975" y="655" as="geometry" />
+        </mxCell>
+        <mxCell id="Ur4aKNMYsr8kbW77SF3d-71" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;fontColor=#333333;whiteSpace=wrap;" value="⚠  Event-driven sync leads to eventual consistency.&lt;br&gt;&lt;br&gt;⚠  No fallback for new customers (availability risk).&lt;br&gt;&lt;br&gt;⚠  Dual data sources (CRM DB &amp;amp; Siebel DB) increase complexity.&lt;br&gt;&lt;br&gt;⚠  Legacy path still active for old customers.&lt;br&gt;&lt;br&gt;⚠  Multiple integration patterns (API + Events + Legacy) increase complexity and operational overhead." vertex="1">
+          <mxGeometry height="136" width="508" x="975" y="674" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
